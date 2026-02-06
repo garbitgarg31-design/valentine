@@ -2,107 +2,145 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+      content="width=device-width,
+               initial-scale=1.0,
+               maximum-scale=1.0,
+               user-scalable=no">
 <title>For Ritika ❤️</title>
 
 <style>
-html, body{
-  margin:0;
-  height:100%;
+/* iOS safe reset */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overscroll-behavior: none;
 }
 
-body{
-  position:relative;
-  min-height:100vh;
-  background-image:url("background.jpg");
-  background-size:cover;              /* fill phone screen */
-  background-position:center top;     /* best for portraits */
-  background-repeat:no-repeat;
-  display:flex;
-  justify-content:center;
-  align-items:flex-end;               /* card at bottom (phone style) */
-  font-family:Arial, sans-serif;
-  overflow:hidden;
+body {
+  position: relative;
+  min-height: 100svh; /* iPhone 16 safe viewport */
+  background-image: url("background.jpg");
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro", Arial, sans-serif;
+  overflow: hidden;
 }
 
-/* dark overlay (touch-safe) */
-body::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:rgba(0,0,0,0.6);
-  pointer-events:none;                /* VERY IMPORTANT */
+/* Dark overlay (touch safe) */
+body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.7),
+    rgba(0,0,0,0.4),
+    rgba(0,0,0,0.15)
+  );
+  pointer-events: none;
 }
 
-/* card */
-.card{
-  position:relative;
-  z-index:2;
-  background:rgba(0,0,0,0.75);
-  width:90%;
-  max-width:340px;
-  margin-bottom:30px;
-  padding:22px;
-  border-radius:20px;
-  color:white;
-  text-align:center;
-  animation:idleFloat 3s ease-in-out infinite;
+/* Main card */
+.card {
+  position: relative;
+  z-index: 2;
+  width: 92%;
+  max-width: 360px;
+
+  margin-bottom: calc(env(safe-area-inset-bottom) + 28px);
+  padding: 22px 20px;
+
+  background: rgba(0,0,0,0.7);
+  color: white;
+  border-radius: 22px;
+  text-align: center;
+
+  animation: floatCard 4s ease-in-out infinite;
 }
 
-@keyframes idleFloat{
-  0%,100%{transform:translateY(0);}
-  50%{transform:translateY(-6px);}
+@keyframes floatCard {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
 }
 
-button{
-  padding:12px 22px;
-  margin:10px;
-  border:none;
-  border-radius:25px;
-  font-size:14px;
-  cursor:pointer;
+h2 {
+  margin: 0 0 10px;
+  font-size: 22px;
 }
 
-#yes{background:#ff4da6;color:white;}
-#no{background:#444;color:white;}
-
-/* celebration */
-.burst{
-  position:absolute;
-  font-size:30px;
-  animation:burst 1s ease-out forwards;
+p {
+  font-size: 15px;
+  line-height: 1.6;
+  margin-bottom: 18px;
 }
 
-@keyframes burst{
-  to{
-    transform:translate(var(--x), var(--y)) scale(0);
-    opacity:0;
+/* Buttons – thumb friendly */
+button {
+  width: 100%;
+  padding: 14px 0;
+  margin: 8px 0;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#yes {
+  background: linear-gradient(135deg, #ff4da6, #ff87c5);
+  color: white;
+}
+
+#no {
+  background: #444;
+  color: white;
+}
+
+/* Glow pulse after YES */
+.glow {
+  animation: glowPulse 1.4s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 18px #ff4da6; }
+  50% { box-shadow: 0 0 50px #ff4da6; }
+}
+
+/* Burst hearts */
+.burst {
+  position: absolute;
+  font-size: 28px;
+  animation: burst 1s ease-out forwards;
+}
+
+@keyframes burst {
+  to {
+    transform: translate(var(--x), var(--y)) scale(0);
+    opacity: 0;
   }
 }
 
-/* raining hearts */
-.rain{
-  position:absolute;
-  top:-30px;
-  font-size:22px;
-  animation:rain 4s linear forwards;
+/* Falling hearts */
+.rain {
+  position: absolute;
+  top: -30px;
+  font-size: 22px;
+  animation: rain 4.5s linear forwards;
 }
 
-@keyframes rain{
-  to{
-    transform:translateY(120vh);
-    opacity:0;
+@keyframes rain {
+  to {
+    transform: translateY(120svh);
+    opacity: 0;
   }
-}
-
-/* glow pulse */
-.glow{
-  animation:glowPulse 1.2s ease-in-out infinite;
-}
-
-@keyframes glowPulse{
-  0%,100%{box-shadow:0 0 20px #ff4da6;}
-  50%{box-shadow:0 0 60px #ff4da6;}
 }
 </style>
 </head>
@@ -126,49 +164,17 @@ button{
 </div>
 
 <script>
-// start music on first tap (iPhone safe)
-document.body.addEventListener("click",()=>{
-  const m=document.getElementById("music");
-  if(m) m.play();
-},{once:true});
+/* iPhone safe music start */
+document.body.addEventListener("touchstart", () => {
+  const m = document.getElementById("music");
+  if (m) m.play();
+}, { once: true });
 
-// YES clicked
-document.getElementById("yes").onclick=function(){
-  const card=document.getElementById("card");
+/* YES clicked */
+document.getElementById("yes").onclick = function () {
+  const card = document.getElementById("card");
   card.classList.add("glow");
 
-  // heart burst
-  for(let i=0;i<25;i++){
-    let b=document.createElement("div");
-    b.className="burst";
-    b.innerHTML="💖";
-    b.style.left="50%";
-    b.style.top="50%";
-    b.style.setProperty("--x",(Math.random()*400-200)+"px");
-    b.style.setProperty("--y",(Math.random()*400-200)+"px");
-    document.body.appendChild(b);
-    setTimeout(()=>b.remove(),1000);
-  }
-
-  // heart rain
-  setInterval(()=>{
-    let r=document.createElement("div");
-    r.className="rain";
-    r.innerHTML="💘";
-    r.style.left=Math.random()*100+"vw";
-    document.body.appendChild(r);
-    setTimeout(()=>r.remove(),4000);
-  },220);
-};
-
-// NO button moves
-document.getElementById("no").onmouseover=function(){
-  this.style.position="relative";
-  this.style.left=Math.random()*120-60+"px";
-  this.style.top=Math.random()*80-40+"px";
-};
-</script>
-
-</body>
-</html>
+  /* Heart burst */
+  for
 
